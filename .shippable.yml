@@ -12,7 +12,7 @@ env:
 
 build:
   ci:
-    - # Pull latest image to be used as cache
+    # Pull latest image to be used as cache
     - docker pull nrgi/shiny-auth0:$BRANCH || echo 'Cache not available'
 
     # Use the `--cache-from` option to use the latest image in the repo as a cache for this build. Available since Docker 1.13
@@ -23,9 +23,6 @@ build:
 
     - docker push nrgi/shiny-auth0:$BRANCH
     - docker push nrgi/shiny-auth0:$BRANCH.$COMMIT
-
-    # Trigger deploy through building a repo with deploy configuration
-#    - ./shippable-deploy.sh
 
 integrations:
   hub:
