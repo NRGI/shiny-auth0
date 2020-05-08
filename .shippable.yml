@@ -1,0 +1,44 @@
+language: python
+
+branches:
+  only:
+    - master
+    - staging
+
+env:
+  global:
+    # Shippable API token used to trigger deploy
+    - secure: HPcbpjGWuoqyvD8oIex+Qmmyt1QAjJzhmgas9fmnjiGKWD+vseZfED6gEcQGe0xprRxrFruXU/Ea5TZ2FdgKdSg7k2m9MeLhQWSc547ZJgn0h3xx+qNW3Or4Wzc9/UGcbKRq7O1uw7MG8Wxg9iWYOsxDWxJOV6NJtnPrUWAfibezFSyxcJwZAdwOY000lsQBMpmDJ+UvELeAgKx28QggcvUiouVP/mwWtcM8Uj5bS3rWkKGRz75+IKphc/H9fYjap6DJsYxqA4Dh7sLxJx5tTJjg4tX24HEDJLhcyPNSOhSp9ai9RhoTnl7EaUr94apSb8wv0dJ0VlBW6OezWrIaaw==
+
+build:
+  ci:
+    - # Pull latest image to be used as cache
+    - docker pull nrgi/shiny-auth0:$BRANCH || echo 'Cache not available'
+
+    # Use the `--cache-from` option to use the latest image in the repo as a cache for this build. Available since Docker 1.13
+    - docker build -t nrgi/shiny-auth0:$BRANCH.$COMMIT --cache-from nrgi/shiny-auth0:$BRANCH .
+
+    # Create the `latest` tag and force it in case the tag is already there from a previous build
+    - docker tag nrgi/shiny-auth0:$BRANCH.$COMMIT nrgi/shiny-auth0:$BRANCH
+
+    - docker push nrgi/shiny-auth0:$BRANCH
+    - docker push nrgi/shiny-auth0:$BRANCH.$COMMIT
+
+    # Trigger deploy through building a repo with deploy configuration
+#    - ./shippable-deploy.sh
+
+integrations:
+  hub:
+    - integrationName: nrgiDockerHub
+      type: docker
+  notifications:
+    - integrationName: email
+      type: email
+      recipients:
+        - adina@vitaminsoftware.com
+      branches:
+        only:
+          - master
+          - staging
+      on_success: change
+      on_failure: always
