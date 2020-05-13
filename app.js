@@ -5,10 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var FileStore = require('session-file-store')(session);
+
 var dotenv = require('dotenv')
 var passport = require('passport');
 var Auth0Strategy = require('passport-auth0');
 
+var fileStoreOptions = {};
 dotenv.load();
 
 var routes = require('./routes/index');
@@ -58,7 +61,8 @@ app.use(cookieParser());
 app.use(session({
   secret: process.env.COOKIE_SECRET,
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new FileStore(fileStoreOptions)
 }));
 app.use(passport.initialize());
 app.use(passport.session());
