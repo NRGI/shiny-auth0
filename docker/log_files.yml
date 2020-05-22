@@ -1,0 +1,10 @@
+files:
+  - path: /var/log/supervisor/*.log
+    tag: ecs-nrgi-shiny-auth0.log
+  - path: /var/log/supervisor/remote-syslog.log
+    tag: ecs-nrgi-shiny-auth0-supervisor.log
+destination:
+  host: ${PAPERTRAIL_HOST}
+  port: ${PAPERTRAIL_PORT}
+  protocol: tls
+exclude_patterns:
