@@ -41,19 +41,21 @@ proxy.on('proxyReq', function(proxyReq, req, res, options) {
   setIfExists(proxyReq, 'x-auth0-locale', req.user._json.locale);
 });
 
+
+
 //
 // Listen to the `upgrade` event and proxy the
 // WebSocket requests as well.
 //
 server.on('upgrade', function (req, socket, head) {
-  console.log("proxying upgrade request", req.url);
-  proxy.ws(req, socket, head);
-});
+    socket.on('error', err => {
+        console.error(err); // ECONNRESET will be caught here
+    });
 
-proxy.on('error', function (req, socket, head) {
-  console.log("error!!!")
+    proxy.on('error', function (req, socket, head) {
+        console.log("error!!!")
+    });
 });
-
 /* Proxy all requests */
 router.all(/.*/, ensureLoggedIn, function(req, res, next) {
   proxy.web(req, res);
