@@ -40,6 +40,9 @@ var proxy = httpProxy.createProxyServer({
 });
 
 server.on('upgrade', function (req, socket, head) {
+     socket.on('error', err => {
+            console.error(err); // ECONNRESET will be caught here
+    });
   req.url = req.url.substring(8);
   proxy.ws(req, socket, head);
 });
@@ -88,10 +91,23 @@ function onError(error) {
       console.error(bind + ' is already in use');
       process.exit(1);
       break;
+    case 'ECONNRESET':
+      console.error(error);
+      break;
     default:
       throw error;
   }
 }
+
+// catch the uncaught errors that weren't wrapped in a domain or try catch statement
+process.on('uncaughtException', function(err) {
+  switch (err.code) {
+    case 'ECONNRESET':
+      console.error(err);
+      break;
+    default:
+      throw err;
+}})
 
 /**
  * Event listener for HTTP server "listening" event.
