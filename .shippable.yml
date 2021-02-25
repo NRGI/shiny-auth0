@@ -8,7 +8,7 @@ branches:
 env:
   global:
     # Shippable API token used to trigger deploy
-    - secure: HPcbpjGWuoqyvD8oIex+Qmmyt1QAjJzhmgas9fmnjiGKWD+vseZfED6gEcQGe0xprRxrFruXU/Ea5TZ2FdgKdSg7k2m9MeLhQWSc547ZJgn0h3xx+qNW3Or4Wzc9/UGcbKRq7O1uw7MG8Wxg9iWYOsxDWxJOV6NJtnPrUWAfibezFSyxcJwZAdwOY000lsQBMpmDJ+UvELeAgKx28QggcvUiouVP/mwWtcM8Uj5bS3rWkKGRz75+IKphc/H9fYjap6DJsYxqA4Dh7sLxJx5tTJjg4tX24HEDJLhcyPNSOhSp9ai9RhoTnl7EaUr94apSb8wv0dJ0VlBW6OezWrIaaw==
+    - secure: HQVobaonseebLJ9GOR5pYjnEKG8m9aWVwr5RIr9zIHwVqBbZnkUZBhXms7k7Qa9KT8jalol4rFXvwSOPse5Pl/rzCmWm4o2UJzUNRf+iTRGsj6IFkrM6uaysKH3yZOI8qZarI/qLcGtdoQA3cQ5qKWLfwCia8VwoK1Gr368DUo/hle5m5PYAmIQEFZii/iabjzzrembK0phzmHfwinR43LL4jwIOLk3AAsWhLSxLZUhtGR5hDu6pdj6YIPExPemQ+B/3tbR5NlN7Z1/2/1Jht8NN69pa5/3Dq6ryEhUI5WHtbDpqHNhQE774Xr8u6y8WjPFo7kU/63XSrweP4EDyAQ==
 
 build:
   ci:
@@ -32,7 +32,7 @@ integrations:
     - integrationName: email
       type: email
       recipients:
-        - adina@vitaminsoftware.com
+        - AWSDevOps@cloudelligent.com
       branches:
         only:
           - master
